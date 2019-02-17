@@ -71,7 +71,7 @@ namespace Fractals.Fractal
                 
                 Interlocked.Increment(ref progress);
                 if (progress % (width / 10) != 0) return;
-                var percentage = (float) progress / (width - 1) * 100;
+                var percentage = (float) progress / width * 100;
                 Listener.OnProgressChanged((int) percentage);
             });
             watch.Stop();

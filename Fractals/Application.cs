@@ -12,6 +12,8 @@ namespace Fractals
     public class Application : IListener
     {
         private bool isHelp;
+
+        private readonly object synchronizationObject = new object();
         
         public void StartApp(IReadOnlyCollection<string> args)
         {
@@ -40,7 +42,12 @@ namespace Fractals
                 Console.WriteLine("Wrong parameter types!");
                 return;
             }
-            
+
+            if (width < 10 || height < 10 || zoom <= 0)
+            {
+                Console.WriteLine("Wrong parameter values!");
+                return;
+            } 
             if (argsList.Count > 0 || args.Count < 1) Console.WriteLine("Using default values. Start with -help to get more information.");
             if (isHelp) return;
             IFractal fractal = new MandelbrotSet(iterations, offsetX, offsetY, zoom);
@@ -64,8 +71,11 @@ namespace Fractals
 
         public void OnProgressChanged(int percentage)
         {
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write("Progress: " + percentage + "%");
+            lock (synchronizationObject)
+            {
+                Console.SetCursorPosition(0, Console.CursorTop);
+                Console.Write("Progress: " + percentage + "%");
+            }
         }
 
         public void OnTaskComplete(DirectBitmap bitmap, long elapsed)
