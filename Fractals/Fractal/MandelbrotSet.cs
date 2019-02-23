@@ -46,8 +46,8 @@ namespace Fractals.Fractal
             {
                 for (var y = 0; y < height; y++)
                 {
-                    double rel = (XMinVal + ((XMaxVal - XMinVal) / width) * (x + offsetX)) / zoom;
-                    double ima = (YMinVal + ((YMaxVal - YMinVal) / height) * (y + offsetY)) / zoom;
+                    double rel = (XMinVal + ((XMaxVal - XMinVal) / width) * (x + offsetX * zoom)) / zoom;
+                    double ima = (YMinVal + ((YMaxVal - YMinVal) / height) * (y + offsetY * zoom)) / zoom;
                     var complexC = new Complex(rel, ima);
                     var complexZ = new Complex(0, 0);
                     var iteration = 0;
