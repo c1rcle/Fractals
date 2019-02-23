@@ -42,13 +42,18 @@ namespace Fractals
                 Console.WriteLine("Wrong parameter types!");
                 return;
             }
+            catch (OptionException)
+            {
+                Console.WriteLine("Some of the specified launch parameters do not contain a required value!");
+                return;
+            }
 
             if (width < 10 || height < 10 || zoom <= 0)
             {
                 Console.WriteLine("Wrong parameter values!");
                 return;
             } 
-            if (argsList.Count > 0 || args.Count < 1) Console.WriteLine("Using default values. Start with -help to get more information.");
+            if (argsList.Count == args.Count || args.Count < 1) Console.WriteLine("Using default values. Start with -help to get more information.");
             if (isHelp) return;
             IFractal fractal = new MandelbrotSet(iterations, offsetX, offsetY, zoom);
             fractal.Listener = this;
